@@ -3,14 +3,12 @@ class Flashcard {
   final String question;
   final String answer;
 
-  // Constructor — 'required' means you MUST pass these when creating a Flashcard
   Flashcard({
     required this.id,
     required this.question,
     required this.answer,
   });
 
-  // Converts a Flashcard object → Map (needed to save to storage)
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -19,7 +17,6 @@ class Flashcard {
     };
   }
 
-  // Converts a Map → Flashcard object (needed to load from storage)
   factory Flashcard.fromJson(Map<String, dynamic> json) {
     return Flashcard(
       id: json['id'],
