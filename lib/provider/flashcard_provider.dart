@@ -14,3 +14,8 @@ class FlashcardProvider extends ChangeNotifier {
   int _currentIndex = 0;       // which card are we on?
   bool _isAnswerVisible = false; // is the answer showing?
 
+// GETTERS — these let screens read data (but not change it directly)
+  List<Flashcard> get cards => _cards;
+  int get currentIndex => _currentIndex;
+  bool get isAnswerVisible => _isAnswerVisible;
+
