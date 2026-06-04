@@ -40,3 +40,31 @@ void toggleAnswer() {
 _isAnswerVisible = !_isAnswerVisible;
 notifyListeners();
 }
+
+  void addCard(String question, String answer) {
+    final newCard = Flashcard(
+      id: DateTime.now().millisecondsSinceEpoch.toString(), // unique id using timestamp
+      question: question,
+      answer: answer,
+    );
+    _cards.add(newCard);
+    notifyListeners();
+  }
+
+  void editCard(String id, String newQuestion, String newAnswer) {
+    final index = _cards.indexWhere((card) => card.id == id);
+    if (index != -1) {
+      _cards[index] = Flashcard(id: id, question: newQuestion, answer: newAnswer);
+      notifyListeners();
+    }
+  }
+
+  void deleteCard(String id) {
+    _cards.removeWhere((card) => card.id == id);
+    // Make sure currentIndex doesn't go out of bounds after deletion
+    if (_currentIndex >= _cards.length && _currentIndex > 0) {
+      _currentIndex = _cards.length - 1;
+    }
+    notifyListeners();
+  }
+}
