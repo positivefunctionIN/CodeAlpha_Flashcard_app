@@ -11,15 +11,13 @@ class FlashcardProvider extends ChangeNotifier {
     Flashcard(id: '3', question: 'What is a Widget?', answer: 'The basic building block of Flutter UI'),
   ];
 
-  int _currentIndex = 0;       // which card are we on?
-  bool _isAnswerVisible = false; // is the answer showing?
+  int _currentIndex = 0;
+  bool _isAnswerVisible = false;
 
-// GETTERS — these let screens read data (but not change it directly)
   List<Flashcard> get cards => _cards;
   int get currentIndex => _currentIndex;
   bool get isAnswerVisible => _isAnswerVisible;
 
 Flashcard? get currentCard => _cards.isEmpty ? null : _cards[_currentIndex];
 
-// Total number of cards
 int get totalCards => _cards.length;
