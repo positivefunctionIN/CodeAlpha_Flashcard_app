@@ -3,7 +3,7 @@ import '../models/flashcard.dart';
 
 class FlashcardProvider extends ChangeNotifier {
 
-  // The master list of all flashcards
+
   List<Flashcard> _cards = [
     // Some starter cards so your app isn't empty on first run
     Flashcard(id: '1', question: 'What is Flutter?', answer: 'A UI toolkit by Google for building cross-platform apps'),
