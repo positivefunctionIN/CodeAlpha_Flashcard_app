@@ -54,3 +54,24 @@ const Text('Tap the menu icon above to add cards'),
 ),
 );
 }
+
+Widget _buildQuizView(BuildContext context, FlashcardProvider provider) {
+final card = provider.currentCard!;
+
+return Padding(
+padding: const EdgeInsets.all(24.0),
+child: Column(
+children: [
+// Progress indicator  e.g. "Card 2 of 5"
+Text(
+'Card ${provider.currentIndex + 1} of ${provider.totalCards}',
+style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+color: Colors.grey[600],
+),
+),
+const SizedBox(height: 8),
+LinearProgressIndicator(
+value: (provider.currentIndex + 1) / provider.totalCards,
+backgroundColor: Colors.grey[200],
+),
+const SizedBox(height: 32),
