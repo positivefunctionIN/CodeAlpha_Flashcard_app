@@ -75,3 +75,74 @@ value: (provider.currentIndex + 1) / provider.totalCards,
 backgroundColor: Colors.grey[200],
 ),
 const SizedBox(height: 32),
+
+Expanded(
+child: GestureDetector(
+onTap: provider.toggleAnswer, // tap the card to flip it
+child: AnimatedSwitcher(
+duration: const Duration(milliseconds: 300),
+child: Container(
+key: ValueKey(provider.isAnswerVisible), // key tells Flutter this is a new widget
+width: double.infinity,
+decoration: BoxDecoration(
+color: provider.isAnswerVisible
+? Colors.indigo[50]   // light blue when showing answer
+: Colors.white,
+borderRadius: BorderRadius.circular(20),
+border: Border.all(
+color: provider.isAnswerVisible
+? Colors.indigo
+: Colors.grey[300]!,
+width: 2,
+),
+boxShadow: [
+BoxShadow(
+color: Colors.black.withOpacity(0.08),
+blurRadius: 12,
+offset: const Offset(0, 4),
+),
+],
+),
+child: Column(
+mainAxisAlignment: MainAxisAlignment.center,
+children: [
+// Label at the top of the card
+Text(
+provider.isAnswerVisible ? 'ANSWER' : 'QUESTION',
+style: TextStyle(
+fontSize: 12,
+fontWeight: FontWeight.bold,
+letterSpacing: 2,
+color: provider.isAnswerVisible
+? Colors.indigo
+: Colors.grey[500],
+),
+),
+const SizedBox(height: 20),
+// The actual question or answer text
+Padding(
+padding: const EdgeInsets.symmetric(horizontal: 24),
+child: Text(
+provider.isAnswerVisible ? card.answer : card.question,
+textAlign: TextAlign.center,
+style: Theme.of(context).textTheme.titleLarge,
+),
+),
+const SizedBox(height: 24),
+// Hint shown only on question side
+if (!provider.isAnswerVisible)
+Text(
+'Tap to reveal answer',
+style: TextStyle(
+color: Colors.grey[400],
+fontSize: 13,
+),
+),
+],
+),
+),
+),
+),
+),
+
+const SizedBox(height: 24),
