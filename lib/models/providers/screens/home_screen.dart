@@ -146,3 +146,20 @@ fontSize: 13,
 ),
 
 const SizedBox(height: 24),
+
+if (!provider.isAnswerVisible)
+SizedBox(
+width: double.infinity,
+child: ElevatedButton(
+onPressed: provider.toggleAnswer,
+style: ElevatedButton.styleFrom(
+padding: const EdgeInsets.symmetric(vertical: 16),
+shape: RoundedRectangleBorder(
+borderRadius: BorderRadius.circular(12),
+),
+),
+child: const Text('Show Answer', fontSize: 16),
+),
+),
+
+const SizedBox(height: 16),
