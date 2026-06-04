@@ -36,3 +36,21 @@ body: provider.cards.isEmpty
 },
 );
 }
+
+Widget _buildEmptyState(BuildContext context, FlashcardProvider provider) {
+return Center(
+child: Column(
+mainAxisAlignment: MainAxisAlignment.center,
+children: [
+Icon(Icons.style_outlined, size: 80, color: Colors.grey[400]),
+const SizedBox(height: 16),
+Text(
+'No flashcards yet!',
+style: Theme.of(context).textTheme.headlineSmall,
+),
+const SizedBox(height: 8),
+const Text('Tap the menu icon above to add cards'),
+],
+),
+);
+}
