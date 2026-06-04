@@ -19,3 +19,4 @@ class FlashcardProvider extends ChangeNotifier {
   int get currentIndex => _currentIndex;
   bool get isAnswerVisible => _isAnswerVisible;
 
+Flashcard? get currentCard => _cards.isEmpty ? null : _cards[_currentIndex];
