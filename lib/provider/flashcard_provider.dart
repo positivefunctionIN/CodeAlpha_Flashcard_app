@@ -21,3 +21,22 @@ class FlashcardProvider extends ChangeNotifier {
 Flashcard? get currentCard => _cards.isEmpty ? null : _cards[_currentIndex];
 
 int get totalCards => _cards.length;
+
+void nextCard() {
+if (_cards.isEmpty) return;
+_currentIndex = (_currentIndex + 1) % _cards.length; // loops back to 0
+_isAnswerVisible = false; // hide answer when moving to next card
+notifyListeners(); // tells all widgets listening to rebuild
+}
+
+void previousCard() {
+if (_cards.isEmpty) return;
+_currentIndex = (_currentIndex - 1 + _cards.length) % _cards.length;
+_isAnswerVisible = false;
+notifyListeners();
+}
+
+void toggleAnswer() {
+_isAnswerVisible = !_isAnswerVisible;
+notifyListeners();
+}
