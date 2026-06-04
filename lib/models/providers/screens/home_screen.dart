@@ -163,3 +163,41 @@ child: const Text('Show Answer', fontSize: 16),
 ),
 
 const SizedBox(height: 16),
+
+  Row(
+    children: [
+      Expanded(
+        child: OutlinedButton.icon(
+          onPressed: provider.previousCard,
+          icon: const Icon(Icons.arrow_back),
+          label: const Text('Previous'),
+          style: OutlinedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+      ),
+      const SizedBox(width: 12),
+      Expanded(
+        child: FilledButton.icon(
+          onPressed: provider.nextCard,
+          icon: const Icon(Icons.arrow_forward),
+          label: const Text('Next'),
+          style: FilledButton.styleFrom(
+            padding: const EdgeInsets.symmetric(vertical: 14),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+        ),
+      ),
+    ],
+  ),
+  const SizedBox(height: 16),
+],
+),
+);
+}
+}
