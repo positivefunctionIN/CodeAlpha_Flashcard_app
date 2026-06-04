@@ -20,3 +20,6 @@ class FlashcardProvider extends ChangeNotifier {
   bool get isAnswerVisible => _isAnswerVisible;
 
 Flashcard? get currentCard => _cards.isEmpty ? null : _cards[_currentIndex];
+
+// Total number of cards
+int get totalCards => _cards.length;
