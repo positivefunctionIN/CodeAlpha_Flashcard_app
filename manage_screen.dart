@@ -82,5 +82,28 @@ class ManageScreen extends StatelessWidget {
     );
   }
 
-
+  // Shows a dialog asking user to confirm before deleting
+  void _confirmDelete(BuildContext context, FlashcardProvider provider, String id) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Delete card?'),
+        content: const Text('This action cannot be undone.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx), // cancel
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () {
+              provider.deleteCard(id);
+              Navigator.pop(ctx); // close dialog
+            },
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+  }
 }
