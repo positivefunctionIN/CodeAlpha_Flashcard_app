@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
-import '../providers/flashcard_provider.dart';
-import 'manage_screen.dart';
+import '../../../provider/flashcard_provider.dart';
+import '../../../screens/manage_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,12 +32,6 @@ class _HomeScreenState extends State<HomeScreen>
   late AnimationController _burstCtrl;
   late Animation<double> _burstAnim;
 
-  // ── Shake on wrong swipe attempt ───────────────────────
-  late AnimationController _shakeCtrl;
-  late Animation<double> _shakeAnim;
-
-  bool _slideFromRight = true;
-
   @override
   void initState() {
     super.initState();
@@ -64,11 +58,6 @@ class _HomeScreenState extends State<HomeScreen>
         vsync: this, duration: const Duration(milliseconds: 600));
     _burstAnim = Tween<double>(begin: 0, end: 1).animate(
         CurvedAnimation(parent: _burstCtrl, curve: Curves.easeOut));
-
-    _shakeCtrl = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 400));
-    _shakeAnim = Tween<double>(begin: -1, end: 1).animate(
-        CurvedAnimation(parent: _shakeCtrl, curve: Curves.elasticIn));
   }
 
   @override
@@ -77,7 +66,6 @@ class _HomeScreenState extends State<HomeScreen>
     _slideCtrl.dispose();
     _pulseCtrl.dispose();
     _burstCtrl.dispose();
-    _shakeCtrl.dispose();
     super.dispose();
   }
 
@@ -102,17 +90,21 @@ class _HomeScreenState extends State<HomeScreen>
     _flipCtrl.reset();
     setState(() {
       _showingFront = true;
-      _slideFromRight = forward;
     });
     _slideAnim = Tween<Offset>(
         begin: Offset(forward ? 1.4 : -1.4, 0), end: Offset.zero)
         .animate(CurvedAnimation(parent: _slideCtrl, curve: Curves.easeOutCubic));
     _slideCtrl.forward(from: 0);
-    if (forward) p.nextCard(); else p.previousCard();
+    
+    if (forward) {
+      p.nextCard();
+    } else {
+      p.previousCard();
+    }
   }
 
   // ── Theme colors ─────────────────────────────────────────
-  static const _bg       = Color(0xFF070714);
+  static const _bg       = Color(0xFF0F0E17);
   static const _surface  = Color(0xFF10101F);
   static const _cyan     = Color(0xFF00F5FF);
   static const _magenta  = Color(0xFFFF2D78);
@@ -129,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen>
           body: Stack(
             children: [
               // ── Ambient background grid ──────────────────
-              _AmbientGrid(),
+              const _AmbientGrid(),
 
               // ── Main content ─────────────────────────────
               SafeArea(
@@ -168,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen>
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: const SweepGradient(colors: [_cyan, _magenta, _yellow, _cyan]),
-              boxShadow: [BoxShadow(color: _cyan.withOpacity(0.5), blurRadius: 12)],
+              boxShadow: [BoxShadow(color: _cyan.withValues(alpha: 0.5), blurRadius: 12)],
             ),
             child: const Center(
               child: Text('F', style: TextStyle(
@@ -188,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen>
                       fontWeight: FontWeight.w800,
                       letterSpacing: 0.5)),
               Text('${p.totalCards} cards loaded',
-                  style: TextStyle(color: Colors.white.withOpacity(0.35),
+                  style: TextStyle(color: Colors.white.withValues(alpha: 0.35),
                       fontSize: 11)),
             ],
           ),
@@ -200,14 +192,14 @@ class _HomeScreenState extends State<HomeScreen>
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
-                border: Border.all(color: _cyan.withOpacity(0.4)),
+                border: Border.all(color: _cyan.withValues(alpha: 0.4)),
                 borderRadius: BorderRadius.circular(20),
-                color: _cyan.withOpacity(0.06),
+                color: _cyan.withValues(alpha: 0.06),
               ),
               child: Row(children: [
-                Icon(Icons.tune_rounded, color: _cyan, size: 14),
+                const Icon(Icons.tune_rounded, color: _cyan, size: 14),
                 const SizedBox(width: 6),
-                Text('Manage',
+                const Text('Manage',
                     style: TextStyle(color: _cyan, fontSize: 12,
                         fontWeight: FontWeight.w600)),
               ]),
@@ -237,10 +229,10 @@ class _HomeScreenState extends State<HomeScreen>
                 color: active
                     ? _cyan
                     : done
-                    ? _cyan.withOpacity(0.35)
-                    : Colors.white.withOpacity(0.08),
+                    ? _cyan.withValues(alpha: 0.35)
+                    : Colors.white.withValues(alpha: 0.08),
                 boxShadow: active
-                    ? [BoxShadow(color: _cyan.withOpacity(0.8), blurRadius: 8)]
+                    ? [BoxShadow(color: _cyan.withValues(alpha: 0.8), blurRadius: 8)]
                     : null,
               ),
             ),
@@ -281,7 +273,7 @@ class _HomeScreenState extends State<HomeScreen>
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: _magenta.withOpacity(
+                              color: _magenta.withValues(alpha: 
                                   (1 - _burstAnim.value) * 0.6),
                               width: 2,
                             ),
@@ -300,7 +292,7 @@ class _HomeScreenState extends State<HomeScreen>
                           boxShadow: [
                             BoxShadow(
                               color: (isFront ? _cyan : _magenta)
-                                  .withOpacity(_pulseAnim.value * 0.25),
+                                  .withValues(alpha: _pulseAnim.value * 0.25),
                               blurRadius: 60,
                               spreadRadius: 10,
                             ),
@@ -371,16 +363,16 @@ class _HomeScreenState extends State<HomeScreen>
                   borderRadius: BorderRadius.circular(16),
                   gradient: LinearGradient(
                     colors: _showingFront
-                        ? [_cyan.withOpacity(0.15), _cyan.withOpacity(0.05)]
-                        : [_magenta.withOpacity(0.15), _magenta.withOpacity(0.05)],
+                        ? [_cyan.withValues(alpha: 0.15), _cyan.withValues(alpha: 0.05)]
+                        : [_magenta.withValues(alpha: 0.15), _magenta.withValues(alpha: 0.05)],
                   ),
                   border: Border.all(
-                    color: _showingFront ? _cyan.withOpacity(0.5) : _magenta.withOpacity(0.5),
+                    color: _showingFront ? _cyan.withValues(alpha: 0.5) : _magenta.withValues(alpha: 0.5),
                     width: 1.2,
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: (_showingFront ? _cyan : _magenta).withOpacity(0.2),
+                      color: (_showingFront ? _cyan : _magenta).withValues(alpha: 0.2),
                       blurRadius: 20,
                     ),
                   ],
@@ -418,14 +410,14 @@ class _HomeScreenState extends State<HomeScreen>
         children: [
           AnimatedBuilder(
             animation: _pulseAnim,
-            builder: (_, __) => Container(
+            builder: (context, _) => Container(
               width: 100, height: 100,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: _surface,
-                border: Border.all(color: _cyan.withOpacity(_pulseAnim.value * 0.6), width: 2),
+                border: Border.all(color: _cyan.withValues(alpha: _pulseAnim.value * 0.6), width: 2),
                 boxShadow: [BoxShadow(
-                    color: _cyan.withOpacity(_pulseAnim.value * 0.3),
+                    color: _cyan.withValues(alpha: _pulseAnim.value * 0.3),
                     blurRadius: 30)],
               ),
               child: const Center(
@@ -439,7 +431,7 @@ class _HomeScreenState extends State<HomeScreen>
                   fontWeight: FontWeight.w800)),
           const SizedBox(height: 8),
           Text('Create your first card to start studying',
-              style: TextStyle(color: Colors.white.withOpacity(0.4), fontSize: 14)),
+              style: TextStyle(color: Colors.white.withValues(alpha: 0.4), fontSize: 14)),
           const SizedBox(height: 32),
           GestureDetector(
             onTap: () => Navigator.push(context,
@@ -450,7 +442,7 @@ class _HomeScreenState extends State<HomeScreen>
                 borderRadius: BorderRadius.circular(14),
                 gradient: const LinearGradient(colors: [_cyan, Color(0xFF0080FF)]),
                 boxShadow: [BoxShadow(
-                    color: _cyan.withOpacity(0.4), blurRadius: 24, offset: const Offset(0, 6))],
+                    color: _cyan.withValues(alpha: 0.4), blurRadius: 24, offset: const Offset(0, 6))],
               ),
               child: const Text('+ Add Cards',
                   style: TextStyle(color: Colors.black, fontWeight: FontWeight.w800, fontSize: 15)),
@@ -484,7 +476,7 @@ class _CardFace extends StatelessWidget {
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: BorderRadius.circular(28),
-        border: Border.all(color: accentColor.withOpacity(0.25), width: 1.5),
+        border: Border.all(color: accentColor.withValues(alpha: 0.25), width: 1.5),
       ),
       child: Stack(
         children: [
@@ -522,8 +514,8 @@ class _CardFace extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: accentColor.withOpacity(0.1),
-                    border: Border.all(color: accentColor.withOpacity(0.5)),
+                    color: accentColor.withValues(alpha: 0.1),
+                    border: Border.all(color: accentColor.withValues(alpha: 0.5)),
                   ),
                   child: Text(label,
                       style: TextStyle(
@@ -558,7 +550,7 @@ class _CardFace extends StatelessWidget {
             bottom: 20, right: 20,
             child: Text('${index + 1}/$total',
                 style: TextStyle(
-                    color: accentColor.withOpacity(0.4),
+                    color: accentColor.withValues(alpha: 0.4),
                     fontSize: 11, fontWeight: FontWeight.w700,
                     letterSpacing: 1)),
           ),
@@ -583,7 +575,7 @@ class _GlassButton extends StatelessWidget {
       child: Container(
         width: 50, height: 54,
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.04),
+          color: Colors.white.withValues(alpha: 0.04),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: Colors.white12),
         ),
@@ -604,7 +596,7 @@ class _CornerDot extends StatelessWidget {
       width: 5, height: 5,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: color.withOpacity(0.5),
+        color: color.withValues(alpha: 0.5),
       ),
     );
   }
@@ -618,7 +610,7 @@ class _CornerLinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = color.withOpacity(0.12)
+      ..color = color.withValues(alpha: 0.12)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1;
     final path = Path()
@@ -634,19 +626,23 @@ class _CornerLinePainter extends CustomPainter {
 
 // ── Ambient background grid ──────────────────────────────────────────────────
 class _AmbientGrid extends StatelessWidget {
+  const _AmbientGrid();
+
   @override
   Widget build(BuildContext context) {
     return Positioned.fill(
-      child: CustomPaint(painter: _GridPainter()),
+      child: CustomPaint(painter: const _GridPainter()),
     );
   }
 }
 
 class _GridPainter extends CustomPainter {
+  const _GridPainter();
+
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = const Color(0xFF00F5FF).withOpacity(0.03)
+      ..color = const Color(0xFF00F5FF).withValues(alpha: 0.03)
       ..strokeWidth = 0.5;
     const step = 40.0;
     for (double x = 0; x < size.width; x += step) {
@@ -660,7 +656,7 @@ class _GridPainter extends CustomPainter {
       center: const Alignment(0, 1.2),
       radius: 0.8,
       colors: [
-        const Color(0xFF6C00FF).withOpacity(0.15),
+        const Color(0xFF6C00FF).withValues(alpha: 0.15),
         Colors.transparent,
       ],
     );
