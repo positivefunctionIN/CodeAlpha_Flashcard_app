@@ -7,8 +7,7 @@ import 'add_edit_screen.dart';
 class ManageScreen extends StatelessWidget {
   const ManageScreen({super.key});
 
-  static const _bg      = Color(0xFF0F0E17); // Updated to requested dark theme
-  static const _surface = Color(0xFF10101F);
+  static const _bg      = Color(0xFF0F0E17);
   static const _cyan    = Color(0xFF00F5FF);
   static const _magenta = Color(0xFFFF2D78);
 
