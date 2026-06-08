@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'providers/flashcard_provider.dart';
+import 'provider/flashcard_provider.dart';
 import 'screens/home_screen.dart';
 
 void main() {
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => FlashcardProvider(), // creates ONE instance for whole app
+      create: (context) => FlashcardProvider(),
       child: MaterialApp(
         title: 'Flashcard Quiz',
         debugShowCheckedModeBanner: false,
