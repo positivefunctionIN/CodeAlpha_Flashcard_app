@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import '../models/flashcard.dart';
-import '../providers/flashcard_provider.dart';
+import '../../flashcard.dart';
+import '../../../provider/flashcard_provider.dart';
 
 class AddEditScreen extends StatefulWidget {
   final Flashcard? cardToEdit;
@@ -23,11 +23,10 @@ class _AddEditScreenState extends State<AddEditScreen>
 
   bool get _isEditing => widget.cardToEdit != null;
 
-  static const _bg      = Color(0xFF070714);
+  static const _bg      = Color(0xFF0F0E17);
   static const _surface = Color(0xFF10101F);
   static const _cyan    = Color(0xFF00F5FF);
   static const _magenta = Color(0xFFFF2D78);
-  static const _yellow  = Color(0xFFFFE033);
 
   @override
   void initState() {
@@ -131,7 +130,7 @@ class _AddEditScreenState extends State<AddEditScreen>
             child: Container(
               width: 38, height: 38,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.05),
+                color: Colors.white.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(color: Colors.white12),
               ),
@@ -154,7 +153,7 @@ class _AddEditScreenState extends State<AddEditScreen>
   Widget _buildPreview() {
     return AnimatedBuilder(
       animation: Listenable.merge([_qCtrl, _aCtrl]),
-      builder: (_, __) {
+      builder: (context, _) {
         final q = _qCtrl.text.isEmpty ? 'Your question appears here...' : _qCtrl.text;
         final a = _aCtrl.text.isEmpty ? 'Your answer appears here...' : _aCtrl.text;
         return Container(
@@ -163,7 +162,7 @@ class _AddEditScreenState extends State<AddEditScreen>
           decoration: BoxDecoration(
             color: _surface,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.white.withOpacity(0.07)),
+            border: Border.all(color: Colors.white.withValues(alpha: 0.07)),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,7 +176,7 @@ class _AddEditScreenState extends State<AddEditScreen>
                 const SizedBox(width: 8),
                 Text('Preview',
                     style: TextStyle(
-                        color: Colors.white.withOpacity(0.35),
+                        color: Colors.white.withValues(alpha: 0.35),
                         fontSize: 11, fontWeight: FontWeight.w700,
                         letterSpacing: 1.5)),
               ]),
@@ -186,15 +185,15 @@ class _AddEditScreenState extends State<AddEditScreen>
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: _cyan.withOpacity(0.05),
+                  color: _cyan.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: _cyan.withOpacity(0.15)),
+                  border: Border.all(color: _cyan.withValues(alpha: 0.15)),
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Q', style: TextStyle(
-                        color: _cyan.withOpacity(0.6), fontSize: 10,
+                        color: _cyan.withValues(alpha: 0.6), fontSize: 10,
                         fontWeight: FontWeight.w800)),
                     const SizedBox(width: 8),
                     Expanded(
@@ -213,15 +212,15 @@ class _AddEditScreenState extends State<AddEditScreen>
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: _magenta.withOpacity(0.05),
+                  color: _magenta.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: _magenta.withOpacity(0.15)),
+                  border: Border.all(color: _magenta.withValues(alpha: 0.15)),
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('A', style: TextStyle(
-                        color: _magenta.withOpacity(0.6), fontSize: 10,
+                        color: _magenta.withValues(alpha: 0.6), fontSize: 10,
                         fontWeight: FontWeight.w800)),
                     const SizedBox(width: 8),
                     Expanded(
@@ -266,20 +265,20 @@ class _AddEditScreenState extends State<AddEditScreen>
       validator: validator,
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: TextStyle(color: Colors.white.withOpacity(0.2), fontSize: 14),
+        hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.2), fontSize: 14),
         filled: true,
         fillColor: _surface,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: Colors.white.withOpacity(0.08)),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: Colors.white.withOpacity(0.08)),
+          borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.08)),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide(color: accent.withOpacity(0.6), width: 1.5),
+          borderSide: BorderSide(color: accent.withValues(alpha: 0.6), width: 1.5),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
@@ -310,7 +309,7 @@ class _AddEditScreenState extends State<AddEditScreen>
           ),
           boxShadow: [
             BoxShadow(
-                color: _cyan.withOpacity(0.35),
+                color: _cyan.withValues(alpha: 0.35),
                 blurRadius: 24,
                 offset: const Offset(0, 8)),
           ],
